@@ -519,6 +519,12 @@ export namespace Temporal {
     nanoseconds?: number | undefined;
   };
 
+  type DurationStringDatePart = `P${`${number}Y` | ''}${`${number}M` | ''}${`${number}W` | ''}${`${number}D` | ''}`;
+  type DurationStringTimePart = Exclude<`T${`${number}H` | ''}${`${number}M` | ''}${`${number}S` | ''}`, 'T'>;
+
+  export type DurationString = Exclude<`${DurationStringDatePart}${DurationStringTimePart | ''}`, 'P' | 'PT'>;
+
+
   /**
    * Options for Intl.DurationFormat
    */
@@ -557,10 +563,10 @@ export namespace Temporal {
    * See https://tc39.es/proposal-temporal/docs/duration.html for more details.
    */
   export class Duration {
-    static from(item: Temporal.Duration | DurationLike | string): Temporal.Duration;
+    static from(item: Temporal.Duration | DurationLike | DurationString): Temporal.Duration;
     static compare(
-      one: Temporal.Duration | DurationLike | string,
-      two: Temporal.Duration | DurationLike | string,
+      one: Temporal.Duration | DurationLike | DurationString,
+      two: Temporal.Duration | DurationLike | DurationString,
       options?: DurationArithmeticOptions
     ): ComparisonResult;
     constructor(
@@ -590,8 +596,8 @@ export namespace Temporal {
     negated(): Temporal.Duration;
     abs(): Temporal.Duration;
     with(durationLike: DurationLike): Temporal.Duration;
-    add(other: Temporal.Duration | DurationLike | string): Temporal.Duration;
-    subtract(other: Temporal.Duration | DurationLike | string): Temporal.Duration;
+    add(other: Temporal.Duration | DurationLike | DurationString): Temporal.Duration;
+    subtract(other: Temporal.Duration | DurationLike | DurationString): Temporal.Duration;
     round(roundTo: DurationRoundTo): Temporal.Duration;
     total(totalOf: DurationTotalOf): number;
     toLocaleString(locales?: globalThis.Intl.LocalesArgument, options?: DurationFormatOptions): string;
