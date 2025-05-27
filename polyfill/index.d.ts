@@ -524,7 +524,6 @@ export namespace Temporal {
 
   export type DurationString = Exclude<`${DurationStringDatePart}${DurationStringTimePart | ''}`, 'P' | 'PT'>;
 
-
   /**
    * Options for Intl.DurationFormat
    */
